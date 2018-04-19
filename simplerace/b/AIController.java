@@ -3,6 +3,7 @@ import simplerace.*;
 import java.lang.*;
 import java.awt.geom.*;
 import java.awt.*;
+import java.util.*;
 
 public class AIController implements Controller, Constants {
 	public void reset() { }
@@ -73,17 +74,17 @@ public class AIController implements Controller, Constants {
 				if (nextDistance < 0.1) {
 					System.out.println("79");
 					return 2;
-				} else if (50 < radian && radian <= 80) {
+				} else if (nextDistance < 0.2) {
 					System.out.println("78");
 					return 2;
 				} else {
 					return 0;
 				}
 			} else if (50 < radian && radian <= 80) {
-				if (nextDistance < 0.06) {
+				if (nextDistance < 0.02) {
 					System.out.println("77");
 					return 2;
-				} else if (30 < radian && radian <= 50) {
+				} else if (nextDistance < 0.1) {
 					System.out.println("76");
 					return 2;
 				} else {
@@ -93,7 +94,7 @@ public class AIController implements Controller, Constants {
 				if (nextDistance < 0.1) {
 					System.out.println("5");
 					return 0;
-				} else if (nextDistance < 0.25) {
+				} else if (nextDistance < 0.35) {
 					System.out.println("6");
 					return 2;
 				} else {
@@ -102,7 +103,7 @@ public class AIController implements Controller, Constants {
 				}
 			}
 
-		} else if (3.5 < currentSpeed && currentSpeed <= 4 ) {
+		} else if (3.5 < currentSpeed && currentSpeed <= 4) {
 			if ( 120 < radian && radian <= 180) {
 				if (nextDistance < 0.1) {
 					System.out.println("8");
@@ -111,25 +112,34 @@ public class AIController implements Controller, Constants {
 					System.out.println("9");
 					return 1;
 				}
-			} else if ( 70 < radian && radian <= 120) {
-				if (nextDistance < 0.15) {
+			} else if ( 80 < radian && radian <= 120) {
+				if (nextDistance < 0.1) {
 					System.out.println("10");
 					return 2;
 				} else {
-					System.out.println("11");
+					System.out.println("11: ");
 					return 1;
 				}
-			} else if (50 < radian && radian <= 70) {
-				if (nextDistance < 0.07) {
+			} else if ( 60 < radian && radian <= 80) {
+				if (nextDistance < 0.1) {
+					System.out.println("10");
+					return 2;
+				} else {
+					System.out.println("11: ");
+					System.out.print(radian);
+					System.out.print(": ");
+					System.out.print(nextDistance);
+					System.out.print(": ");
+					return 1;
+				}
+			} else if (40 < radian && radian <= 60) {
+				if (nextDistance < 0.03) {
 					System.out.println("99");
 					return 2;
-				} else if (nextDistance < 0.8) {
-					return 1;
 				} else {
-					System.out.println("98");
-					return 0;
+					return 1;
 				}
-			} else if (30 < radian && radian <= 50) {
+			} else if (30 < radian && radian <= 40) {
 				if (nextDistance < 0.15) {
 					System.out.println("99");
 					return 2;
@@ -138,10 +148,10 @@ public class AIController implements Controller, Constants {
 					return 1;
 				}
 			} else {
-				if (nextDistance < 0.1) {
+				if (nextDistance < 0.07) {
 					System.out.println("88");
 					return 0;
-				} else if (nextDistance < 0.2) {
+				} else if (nextDistance < 0.13) {
 					System.out.println("87");
 					return 2;
 				} else {
@@ -153,18 +163,18 @@ public class AIController implements Controller, Constants {
 		} else if (3 < currentSpeed && currentSpeed <= 3.5 ) {
 			if ( 120 < radian && radian <= 180) {
 				if (nextDistance < 0.1) {
-					System.out.println("8");
+					System.out.println("69");
 					return 2;
 				} else {
-					System.out.println("9");
+					System.out.println("68");
 					return 1;
 				}
-			} else if ( 70 < radian && radian <= 120) {
+			} else if (70 < radian && radian <= 120) {
 				if (nextDistance < 0.06) {
-					System.out.println("10");
+					System.out.println("67");
 					return 2;
 				} else {
-					System.out.println("11");
+					System.out.println("66");
 					return 1;
 				}
 			} else if (50 < radian && radian <= 70) {
@@ -178,7 +188,7 @@ public class AIController implements Controller, Constants {
 					return 0;
 				}
 			} else if (40 < radian && radian <= 50) {
-				if (nextDistance < 0.16) {
+				if (nextDistance < 0.1) {
 					System.out.println("83");
 					return 2;
 				} else {
@@ -205,7 +215,6 @@ public class AIController implements Controller, Constants {
 					return 0;
 				}
 			}
-
 		} else if (2.5 < currentSpeed && currentSpeed <= 3 ) {
 			if ( 100 < radian && radian <= 120) {
 				if (nextDistance < 0.09) {
@@ -273,7 +282,6 @@ public class AIController implements Controller, Constants {
 					return 1;
 				}
 			}
-//導入済み
 		} else if (1.5 < currentSpeed && currentSpeed <= 2 ) {
 			if ( 40 < radian && radian <= 180) {
 				if (nextDistance < 0.08) {
@@ -295,7 +303,7 @@ public class AIController implements Controller, Constants {
 				if (nextDistance < 0.05) {
 					System.out.println("35");
 					return 2;
-				} else if (0.05 <= nextDistance && nextDistance < 0.1) {
+				} else if (0.05 <= nextDistance && nextDistance < 0.4) {
 					System.out.println("36");
 					return 1;
 				} else {
@@ -338,32 +346,6 @@ public class AIController implements Controller, Constants {
 		}
 	}
 
-	// private int distanceControll(SensorModel inputs, Double radian) {
-	// 	double nextDistance = inputs.getDistanceToNextWaypoint();
-	// 	int speedCheck = speedControll(inputs, radian);
-	// 	if (speedCheck == 1) {
-	// 		if (nextDistance < 0.04) {
-	// 			return 0;
-	// 		} else if (nextDistance < 0.1) {
-	// 			return 2;
-	// 		} else {
-	// 			return 1;
-	// 		}
-	// 	} else if (speedCheck == 2) {
-	// 		if (nextDistance < 0.01) {
-	// 			return 0;
-	// 		} else if (nextDistance < 0.6) {
-	// 			return 1;
-	// 		} else {
-	// 			return 2;
-	// 		}
-	// 	} else if (speedCheck == 3) {
-	// 		return 1;
-	// 	} else {
-	// 		return 0;
-	// 	}
-	// }
-
 	public int control (SensorModel inputs) {
 		int command = neutral;
 		int com = 0;
@@ -381,10 +363,9 @@ public class AIController implements Controller, Constants {
 		double radian = calculateExternalAngle(p1, p2, p3);
 
 		if(radian > 180.0) {
-			com = speedControll(inputs, (360 - radian));
-		} else {
-			com = speedControll(inputs, radian);
+			radian = 360 - radian;
 		}
+		com = speedControll(inputs, radian);
 
 		if(inputs.getAngleToNextWaypoint() > 0) {
 			if (com == 0) {
@@ -403,6 +384,8 @@ public class AIController implements Controller, Constants {
 				command = right;
 			}
 		}
+		System.out.print(command);
+		System.out.print(": ");
 		return command;
 	}
 }
