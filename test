@@ -1,0 +1,4 @@
+#!/bin/sh
+
+javac simplerace/b/TestSensor.java
+java simplerace.Play simplerace.b.TestSensor
