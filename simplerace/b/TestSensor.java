@@ -24,10 +24,10 @@ public class TestSensor extends KeyAdapter implements Controller, Constants {
 		// System.out.println("getAngleToNextNextWaypoint(): " + inputs.getAngleToNextNextWaypoint());s
 
 // (3a)
-		System.out.println("getDistanceToNextWaypoint(): " + inputs.getDistanceToNextWaypoint());
+		// System.out.println("getDistanceToNextWaypoint(): " + inputs.getDistanceToNextWaypoint());
 
 // (3b)
-		// System.out.println("getDistanceToNextNextWaypoint(): " + inputs.getDistanceToNextNextWaypoint());
+		System.out.println("getDistanceToNextNextWaypoint(): " + inputs.getDistanceToNextNextWaypoint());
 
 // (4a)
 // 		System.out.println("getAngleToOtherVehicle(): " + inputs.getAngleToOtherVehicle());
