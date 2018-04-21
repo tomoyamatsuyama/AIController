@@ -39,10 +39,10 @@ public class TestSensor extends KeyAdapter implements Controller, Constants {
 // 		System.out.println("otherVehicleIsPresent(): " + inputs.otherVehicleIsPresent());
 
 // (6a)
-// 		System.out.println("getPosition().x: " + inputs.getPosition().x);
+		System.out.println("getPosition().x: " + inputs.getPosition().x);
 
 // (6b)
-// 		System.out.println("getPosition().y: " + inputs.getPosition().y);
+		System.out.println("getPosition().y: " + inputs.getPosition().y);
 
 // (7a)
 // 		System.out.println("getVelocity().x: " + inputs.getVelocity().x);
