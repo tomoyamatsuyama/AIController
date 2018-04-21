@@ -13,46 +13,56 @@ public class AIController implements Controller, Constants {
 	private boolean isNextNext;
 	private boolean isBack;
 	private int count;
+	private int countOfFlagGet;
+	private boolean isGet = true;
 
 	public int control (SensorModel inputs) {
+		count ++;
 		int command = neutral;
 		int com = 0;
 		this.inputs = inputs;
 
 		this.isNextNext = isNextNextCar();
-		System.out.println(isNextNext);
-		isWait();
+
 		breakControll();
 		isFlagGet();
 
 		command = defaultControll();
+		if (isNextNext) {
+			double distance = inputs.getDistanceToNextNextWaypoint();
+			double speed = inputs.getSpeed();
+			if (distance < 0.1) {
+				if (speed < 0.4) {
+					command = neutral;
+				} else {
+					command = backward;
+				}
+			}
+		}
 		return command;
+	}
+
+	private void missFlag() {
+		if ((count - countOfFlagGet) > 100) {
+			isGet = false;
+		}
 	}
 
 	private void isFlagGet() {
 		double distance = inputs.getDistanceToNextWaypoint();
-		if (distance < 0.038) {
-			System.out.println("get");
-		}
-	}
-
-	private void isWait() {
-		if (!isNextNext) {
-			double distance = inputs.getDistanceToNextWaypoint();
-			if (distance < 0.05) {
-				this.isBack = true;
-			}
-		} else {
-			this.isBack = false;
+		double nextNextDistance = inputs.getDistanceToNextNextWaypoint();
+		if ((distance < 0.038) || (nextNextDistance < 0.038)) {
+			isNextNext = false;
+			countOfFlagGet = count;
+			isGet = true;
 		}
 	}
 
 	private int defaultControll() {
 		double currentAngle = isNextNext ? inputs.getAngleToNextNextWaypoint() : inputs.getAngleToNextWaypoint();
-		double degree = radianToDegree(currentAngle);
 		double safeArea = safeArea();
 
-		if(Math.abs(degree) <= safeArea){
+		if(Math.abs(currentAngle) <= safeArea){
 			return isBack ? backward : forward;
 		} else {
 			return forwardControll();
@@ -85,17 +95,9 @@ public class AIController implements Controller, Constants {
 
 	private double safeSpeed() {
 		double distance = isNextNext ? inputs.getDistanceToNextNextWaypoint() : inputs.getDistanceToNextWaypoint();
-		if (distance < 0.05) {
-			return 1.5;
-		} else if (distance < 0.07) {
-			return 1.9;
-		} else if (distance < 0.1) {
-			return 2.3;
+		if (distance < 0.04) {
+			return 2.5;
 		} else if (distance < 0.12) {
-			return 2.4;
-		} else if (distance < 0.15) {
-			return 3;
-		} else if (distance < 0.25) {
 			return 4;
 		} else {
 			return 6;
@@ -105,13 +107,13 @@ public class AIController implements Controller, Constants {
 	private double safeArea() {
 		double distance = isNextNext ? inputs.getDistanceToNextNextWaypoint() : inputs.getDistanceToNextWaypoint();
 		if (distance < 0.2) {
-			return 5.0;
-		} else if (distance < 0.5) {
-			return 2.5;
-		} else if (distance < 1) {
-			return 0.6;
-		} else {
 			return 0.1;
+		} else if (distance < 0.5) {
+			return 0.23;
+		} else if (distance < 1) {
+			return 0.25;
+		} else {
+			return 0.28;
 		}
 	}
 
@@ -131,8 +133,10 @@ public class AIController implements Controller, Constants {
 		double otherCarPositionX = inputs.getOtherVehiclePosition().x;
 		double otherCarPositionY = inputs.getOtherVehiclePosition().y;
 		double otherCarDistanceToNext = distanceFromPosition(otherCarPositionX, otherCarPositionY, nextX, nextY);
-		System.out.println(carDistanceToNext);
-		System.out.println(otherCarDistanceToNext);
+
+		if (!isGet) {
+			return false;
+		}
 		if (carDistanceToNext < otherCarDistanceToNext) {
 			return false;
 		}
@@ -144,96 +148,7 @@ public class AIController implements Controller, Constants {
 		return degree;
 	}
 
-
 	private double distanceFromPosition(Double x1, Double y1, Double x2, Double y2) {
 		return Math.sqrt((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1));
 	}
-
-	// private int speedControll(Double radian) {
-	// 	// 0: back, 1: neutral, 2: forward
-	// 	double distance = isNextNext ? inputs.getDistanceToNextWaypoint() : inputs.getDistanceToNextNextWaypoint();
-	// 	double currentSpeed = inputs.getSpeed();
-  //
-	// 	if (distance < 0.2) {
-	// 		if (currentSpeed < 0.13) {
-	// 			System.out.println("1");
-	// 			return 2;
-	// 		} else if (currentSpeed < 0.23) {
-	// 			System.out.println("2");
-	// 			return 1;
-	// 		} else {
-	// 			System.out.println("3");
-	// 			return 0;
-	// 		}
-	// 	} else if (distance < 0.4) {
-	// 		if (currentSpeed < 0.2) {
-	// 			System.out.println("4");
-	// 			return 2;
-	// 		} else if (currentSpeed < 0.3) {
-	// 			System.out.println("5");
-	// 			return 1;
-	// 		} else {
-	// 			System.out.println("6");
-	// 			return 0;
-	// 		}
-	// 	} else {
-	// 		if (currentSpeed < 0.3) {
-	// 			System.out.println("7");
-	// 			return 2;
-	// 		} else if (currentSpeed < 0.35) {
-	// 			System.out.println("8");
-	// 			return 1;
-	// 		} else {
-	// 			System.out.println("9");
-	// 			return 0;
-	// 		}
-	// 	}
-	// }
-
-	// private double getRadian() {
-	// 	double carX = inputs.getPosition().x;
-	// 	double carY = inputs.getPosition().y;
-	// 	double nextX = inputs.getNextWaypointPosition().x;
-	// 	double nextY = inputs.getNextWaypointPosition().y;
-	// 	double nextNextX = inputs.getNextNextWaypointPosition().x;
-	// 	double nextNextY = inputs.getNextNextWaypointPosition().y;
-  //
-	// 	Point2D.Double p1 = new Point2D.Double(carX, carY);
-	// 	Point2D.Double p2 = new Point2D.Double(nextX, nextY);
-	// 	Point2D.Double p3 = new Point2D.Double(nextNextX, nextNextY);
-  //
-	// 	return calculateExternalAngle(p1, p2, p3);
-	// }
-
-	// public static double calculateExternalAngle(Point2D.Double p1, Point2D.Double p2, Point2D.Double p3) {
-	// 	Point2D.Double v1 = subtract(p2, p1);
-	// 	Point2D.Double v2 = subtract(p2, p3);
-	// 	double angleRadian = Math.acos(innerProduct(v1, v2) / (magnitude(v1) * magnitude(v2)));
-	// 	double angleDegree = angleRadian * 180 / Math.PI;
-	// 	if (outerProduct(v1, v2) > 0) {
-	// 		return 180 - (angleDegree - 180);
-	// 	} else {
-	// 		return 180 - (180 - angleDegree);
-	// 	}
-	// }
-  //
-	// public static Point2D.Double subtract(Point2D.Double p1, Point2D.Double p2) {
-	// 	return new Point2D.Double(p1.x - p2.x, p1.y - p2.y);
-	// }
-  //
-	// public static double magnitude(Point2D.Double point) {
-	// 	return Math.sqrt(point.x * point.x + point.y * point.y);
-	// }
-  //
-	// public static double innerProduct(Point2D.Double p1, Point2D.Double p2) {
-	// 	return p1.x * p2.x + p1.y * p2.y;
-	// }
-  //
-	// public static double outerProduct(Point2D.Double p1, Point2D.Double p2) {
-	// 	return p1.x * p2.y - p1.y * p2.x;
-	// }
-  //
-	// public static double otherDistance(Double x1, Double y1, Double x2, Double y2) {
-	// 	return Math.sqrt((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1));
-	// }
 }

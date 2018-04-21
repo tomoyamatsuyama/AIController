@@ -1,0 +1,4 @@
+#!/bin/sh
+
+javac simplerace/b/AIController.java
+java simplerace.Stats simplerace.b.AIController simplerace.b.AIController

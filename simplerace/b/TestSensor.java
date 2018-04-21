@@ -18,13 +18,13 @@ public class TestSensor extends KeyAdapter implements Controller, Constants {
 				// System.out.println("getSpeed(): " + inputs.getSpeed());
 
 // (2a)
-		// System.out.println("getAngleToNextWaypoint(): " + inputs.getAngleToNextWaypoint());
+		System.out.println("getAngleToNextWaypoint(): " + inputs.getAngleToNextWaypoint());
 
 // (2b)
 		// System.out.println("getAngleToNextNextWaypoint(): " + inputs.getAngleToNextNextWaypoint());s
 
 // (3a)
-		System.out.println("getDistanceToNextWaypoint(): " + inputs.getDistanceToNextWaypoint());
+		// System.out.println("getDistanceToNextWaypoint(): " + inputs.getDistanceToNextWaypoint());
 
 // (3b)
 		// System.out.println("getDistanceToNextNextWaypoint(): " + inputs.getDistanceToNextNextWaypoint());
@@ -39,10 +39,10 @@ public class TestSensor extends KeyAdapter implements Controller, Constants {
 // 		System.out.println("otherVehicleIsPresent(): " + inputs.otherVehicleIsPresent());
 
 // (6a)
-		System.out.println("getPosition().x: " + inputs.getPosition().x);
+		// System.out.println("getPosition().x: " + inputs.getPosition().x);
 
 // (6b)
-		System.out.println("getPosition().y: " + inputs.getPosition().y);
+		// System.out.println("getPosition().y: " + inputs.getPosition().y);
 
 // (7a)
 // 		System.out.println("getVelocity().x: " + inputs.getVelocity().x);
