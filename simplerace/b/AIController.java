@@ -10,6 +10,7 @@ public class AIController implements Controller, Constants {
 	private double x;
 	private double y;
 
+    
 	public static double calculateExternalAngle(Point2D.Double p1, Point2D.Double p2, Point2D.Double p3) {
 		Point2D.Double v1 = subtract(p2, p1);
 		Point2D.Double v2 = subtract(p2, p3);
